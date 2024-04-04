@@ -1,0 +1,18 @@
+name = "payper-server"
+compatibility_date = "2023-12-01"
+
+[vars]
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNzIxOWJkNTUtN2YzNi00NWVhLTk3ZTMtZmE1YWM4ZjNjN2QwIiwidGVuYW50X2lkIjoiOTI3NTE5NmRhZjc4ZDNlNjhhYjVlY2ZkYWU4ZmJhMjE4ZjI2M2ZkNTU2Y2IzYWFiYzdiYzE0ZDU2ODgzY2RjOSIsImludGVybmFsX3NlY3JldCI6IjY3NTM0YzFlLTI1NWItNDZiMC05YTdiLWJjZDAwOGFjYzBlOSJ9.ddTQaqfIRUSiTa04S0oo8aYcH-nwyVGCurHKbgwcwLY"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
