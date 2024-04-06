@@ -1,4 +1,5 @@
 import { Hono, Next } from 'hono'
+import { cors } from 'hono/cors'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
@@ -8,6 +9,11 @@ const app = new Hono<{
     }
 }>();
 
+app.use('/api/*', cors())
+
+
+
+// SIGNUP FOR THE FIRST TIME =============================================
 app.post('/api/v1/signup', async (c) => {
     try{
         const body: {
@@ -29,6 +35,7 @@ app.post('/api/v1/signup', async (c) => {
             }
         })
         if(isUser){
+            c.status(404);
             return c.json({
                 message: "Email already taken / Incorrect inputs"
             });
@@ -40,10 +47,10 @@ app.post('/api/v1/signup', async (c) => {
                 firstName: body.firstName,
                 lastName: body.lastName
             }}
-        )}
-
-        return c.text('signup route')
-    }catch{
+        )
+        return c.text('signup complete!');
+    }
+    }catch(err){
         return c.text('signup failed')
     }
 })
@@ -77,101 +84,3 @@ app.get('/api/v1/single', (c) => {
 })
 
 export default app;
-
-
-
-
-
-
-
-
-
-// app.post('/api/v1/blog/:id', (c) => {
-// 	const id = c.req.param('id')
-// 	console.log(id);
-// 	return c.text('get blog route')
-// })
-
-// app.post('/api/v1/blog', (c) => {
-
-// 	return c.text('signin route')
-// })
-
-// app.get('/api/v1/blog', (c) => {
-// 	return c.text('signin route')
-// })
-
-// app.put('/api/v1/blog', (c) => {
-// 	return c.text('signin route')
-// })
-
-// app.get('/api/v1/blog/bulk', (c) => {
-// 	return c.text('signin route')
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Hono, Next } from 'hono'
-// import { PrismaClient } from '@prisma/client/edge'
-// import { withAccelerate } from '@prisma/extension-accelerate'
-// import { env } from 'hono/adapter'
-
-// const app = new Hono()
-
-// app.post('/', async (c) => {
-//   // Todo add zod validation here
-//   const body: {
-//     username: string;
-//     password: string;
-//     firstName: string;
-//     lastName: string;
-//   } = await c.req.json()
-//   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c)
-
-//   const prisma = new PrismaClient({
-//       datasourceUrl: DATABASE_URL,
-//   }).$extends(withAccelerate())
-
-//   console.log(body)
-
-//   const response = await prisma.user.create({
-//     data: {
-//       username: "tabish@test.com",
-//       password: "123456",
-//       firstName: "Tabish",
-//       lastName: "Khaqan"
-//     }
-//   })
-  
-//   console.log(JSON.stringify(response))
-
-//   return Response.json(response)
-// })
-
-// export default app
