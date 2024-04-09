@@ -46,7 +46,7 @@ clientRouter.post('/create', async (c) => {
                 deposit: body.deposit,
                 months: body.months,
                 dueDate: newDate,
-                userId: 1
+                userId: 1 //    << == CHANGE THIS WHEN ALL APIs ARE DONE
             }
         })
         console.log(client);
@@ -66,23 +66,109 @@ clientRouter.post('/create', async (c) => {
 
 
 
+clientRouter.put('/edit', async (c) => {
+    const body: {
+        clientId: number;
+        name: string;
+        itemDescription: string;
+        phone: string;
+        totalAmount: number;
+        deposit: number;
+        months: number;
+      } = await c.req.json()
+    console.log(body);  // <<== DELETE THIS LINE AFTER TESTING
+    const newDate = new Date(); // USE THIS METHOD FOR TODAY'S DATE AND TIME NOW!!!
+	
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
 
+    try{
+        // the following req.body.clientId will be passed from the react frontend '/editClient' page when the 'submit' button is pushed ie. (onclick fn)
+        const client = await prisma.client.findUnique({
+            where: {
+            id: body.clientId
+        }
+      });
+      if(!client){
+        c.status(404)
+        
+        return c.json({
+            message: "Client not found",
+        })
+      }
 
-
-
-
-
-
-
-
-
-
-
-
-
-clientRouter.put('/edit', (c) => {
-	return c.text('get edit route')
+      const updatedClient = await prisma.client.update({
+        where: {
+            id: body.clientId
+        },
+        data: {
+            name: body.name, 
+            itemDescription: body.itemDescription, 
+            phone: body.phone, 
+            total: body.totalAmount, 
+            deposit: body.deposit, 
+            months: body.months, 
+            dueDate: newDate
+            // userId: (req as CustomRequest).userId
+        }
+      })
+    }catch(err){
+        c.status(403)
+        
+        return c.json({
+            message: err,
+        })
+    }
+    c.status(200)    
+    return c.json({
+        message: "Client created successfully",
+    })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 clientRouter.patch('/paid', (c) => {
 	return c.text('get paid route')

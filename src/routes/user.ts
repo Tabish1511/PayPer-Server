@@ -59,7 +59,7 @@ userRouter.post('/signup', async (c) => {
 })
 
 // SIGNIN FOR EXISTING USER ================================================
-userRouter.post('/api/v1/signin', async (c) => {
+userRouter.post('/signin', async (c) => {
 	try{
         const body: {
             username: string;
