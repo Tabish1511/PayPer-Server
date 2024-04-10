@@ -219,21 +219,67 @@ clientRouter.get('/single', async (c) => {
 
 // COMPLETE TILL HERE TO TEST 'client/edit' API IN FE
 
+clientRouter.patch('/paid', async (c) => {
+    const body: {
+        id: number;
+      } = await c.req.json()
+    console.log(body.id);
 
+    const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
 
+    
+    try{
+        const client = await prisma.client.findUnique({
+            where: {
+            id: body.id
+        }
+      });
+      if(!client){
+        c.status(404)
+        return c.json({"Error": "Client not found"});
+      }
+      
+      const newDate = client.dueDate;
+      const nextMonth = newDate.getMonth() + 1;
+      newDate.setMonth(nextMonth);
 
+      const updatedClient = await prisma.client.update({
+        where: {
+            id: body.id
+        },
+        data: {
+            dueDate: newDate
+        }
+      })
 
-
-
-
-
-
-
-
-
-clientRouter.patch('/paid', (c) => {
-	return c.text('get paid route')
+      c.status(200);
+      return c.json({
+        "message": "Payment complete!"
+      })
+    }catch(err){
+        c.status(403)
+        return c.json({"error": err});
+    }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 clientRouter.delete('/delete', (c) => {
 	return c.text('get delete route')
