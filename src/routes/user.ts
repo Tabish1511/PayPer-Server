@@ -52,7 +52,9 @@ userRouter.post('/signup', async (c) => {
             id: user.id   
         }, c.env.JWT_SECRET)
 
-        return c.text(jwt);
+        return c.json({
+            token: jwt
+        })
     }catch(err){
         return c.text('signup failed')
     }
@@ -90,7 +92,9 @@ userRouter.post('/signin', async (c) => {
             id: user.id   
         }, c.env.JWT_SECRET)
 
-        return c.text(jwt);
+        return c.json({
+            token: jwt
+        })
     }catch(err){
         return c.text('signin failed')
     }
