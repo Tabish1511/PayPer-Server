@@ -264,23 +264,32 @@ clientRouter.patch('/paid', async (c) => {
     }
 })
 
+clientRouter.delete('/delete', async (c) => {
+    const body: {
+        id: number;
+      } = await c.req.json()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-clientRouter.delete('/delete', (c) => {
-	return c.text('get delete route')
+    const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+    
+    try{
+      const deletedClient = await prisma.client.delete({
+        where: {
+            id: body.id
+        }
+      })
+      if(!deletedClient){
+        c.status(404)
+        return c.json({"error": "Client not found"});
+      }
+    }catch(err){
+        c.status(403)
+        return c.json({"error": err});
+    }
+    
+    c.status(200)
+    return c.json({
+        message: "Client successfully deleted."
+    })
 })
