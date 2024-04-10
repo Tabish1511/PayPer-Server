@@ -171,37 +171,65 @@ clientRouter.get('/bulk', async (c) => {
     }
 })
 
+clientRouter.get('/single', async (c) => {
+    const idParam = c.req.query('id');
+    const id = typeof idParam === 'string' ? parseInt(idParam) : NaN;
 
+    if (isNaN(id)) {
+        c.status(400)
+        return c.json({"error": "Invalid id parameter"});
+    }
 
+    try{
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL,
+        }).$extends(withAccelerate())
 
+        const client = await prisma.client.findUnique({
+            where: {
+            id: id
+            }
+          });
 
+          if(!client){
+            c.status(404)
+            return c.json({"error": "Client not found"});
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-clientRouter.get('/single', (c) => {
-	return c.text('get single route')
+        c.status(200);
+        return c.json({
+            client: {
+                id: client.id,
+                name: client.name,
+                itemDescription: client.itemDescription,
+                phone: client.phone,
+                total: client.total,
+                deposit: client.deposit,
+                months: client.months,
+                dueDate: client.dueDate
+            }
+        })
+    }catch(error){
+        c.status(403);
+        return c.json({
+            "error": error
+        })
+    }
 })
 
 // COMPLETE TILL HERE TO TEST 'client/edit' API IN FE
+
+
+
+
+
+
+
+
+
+
+
+
 
 clientRouter.patch('/paid', (c) => {
 	return c.text('get paid route')
