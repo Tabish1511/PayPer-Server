@@ -122,14 +122,80 @@ clientRouter.put('/edit', async (c) => {
     })
 })
 
+clientRouter.get('/bulk', async (c) => {
+    const filter = c.req.query('filter');
+    const id = 1;   // <<== THIS ID NEEDS TO BE DECODED IN THE AUTHMIDDLEWARE PASSED HERE
 
+    try{
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL,
+        }).$extends(withAccelerate())
 
+        const clients = await prisma.client.findMany({
+            where: {
+              OR: [
+                {
+                  name: {
+                    contains: filter,
+                    mode: 'insensitive'
+                  }
+                },
+                {
+                  phone: {
+                    contains: filter,
+                    mode: 'insensitive'
+                  }
+                }
+              ],
+              userId: id
+            }
+        });
 
-
-
-clientRouter.get('/bulk', (c) => {
-	return c.text('get bulk route')
+        c.status(200)
+        return c.json({
+        client: clients.map(client => ({
+            id: client.id,
+            name: client.name,
+            itemDescription: client.itemDescription,
+            phone: client.phone,
+            total: client.total,
+            deposit: client.deposit,
+            months: client.months,
+            dueDate: client.dueDate
+        }))
+        })
+    }catch(error){
+        console.error("error fetching clients (backend): ", error);
+        c.status(500)
+        return c.json({ error: "Internal server error" });
+    }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 clientRouter.get('/single', (c) => {
 	return c.text('get single route')
