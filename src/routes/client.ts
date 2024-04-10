@@ -62,10 +62,6 @@ clientRouter.post('/create', async (c) => {
     }
 })
 
-
-
-
-
 clientRouter.put('/edit', async (c) => {
     const body: {
         clientId: number;
@@ -131,44 +127,15 @@ clientRouter.put('/edit', async (c) => {
 
 
 
+clientRouter.get('/bulk', (c) => {
+	return c.text('get bulk route')
+})
 
+clientRouter.get('/single', (c) => {
+	return c.text('get single route')
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// COMPLETE TILL HERE TO TEST 'client/edit' API IN FE
 
 clientRouter.patch('/paid', (c) => {
 	return c.text('get paid route')
@@ -176,12 +143,4 @@ clientRouter.patch('/paid', (c) => {
 
 clientRouter.delete('/delete', (c) => {
 	return c.text('get delete route')
-})
-
-clientRouter.get('/bulk', (c) => {
-	return c.text('get bulk route')
-})
-
-clientRouter.get('/single', (c) => {
-	return c.text('get single route')
 })
