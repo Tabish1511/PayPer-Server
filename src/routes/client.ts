@@ -217,8 +217,6 @@ clientRouter.get('/single', async (c) => {
     }
 })
 
-// COMPLETE TILL HERE TO TEST 'client/edit' API IN FE
-
 clientRouter.patch('/paid', async (c) => {
     const body: {
         id: number;
@@ -268,7 +266,7 @@ clientRouter.delete('/delete', async (c) => {
     const body: {
         id: number;
       } = await c.req.json()
-
+    
     const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
