@@ -8,9 +8,30 @@ export const clientRouter = new Hono<{
     Bindings: {
         DATABASE_URL: string;
         JWT_SECRET: string;
+    },
+    Variables: {
+        userId: number;
     }
 }>();
 
+clientRouter.use('/*', async (c, next) => {
+    const jwt = c.req.header('Authorization') || "";
+	if (!jwt) {
+		c.status(401);
+		return c.json({ error: "unauthorized" });
+	}
+
+    const token = jwt.split(' ')[1];
+	const payload = await verify(token, c.env.JWT_SECRET);
+	if (!payload) {
+		c.status(401);
+		return c.json({ error: "unauthorized" });
+	}
+    console.log(payload.id);    // <<== GET ID OF USER LOGGED-IN FROM THE JWT_TOKEN
+    
+    c.set('userId', payload.id);
+    await next()
+})
 
 // CLIENT ROUTES BELOW ===========================
 
@@ -46,7 +67,7 @@ clientRouter.post('/create', async (c) => {
                 deposit: body.deposit,
                 months: body.months,
                 dueDate: newDate,
-                userId: 1 //    << == CHANGE THIS WHEN ALL APIs ARE DONE
+                userId: c.get('userId') //    << == CHANGE THIS WHEN ALL APIs ARE DONE
             }
         })
         console.log(client);
@@ -86,9 +107,9 @@ clientRouter.put('/edit', async (c) => {
             id: body.clientId
         }
       });
+
       if(!client){
         c.status(404)
-        
         return c.json({
             message: "Client not found",
         })
@@ -124,7 +145,7 @@ clientRouter.put('/edit', async (c) => {
 
 clientRouter.get('/bulk', async (c) => {
     const filter = c.req.query('filter');
-    const id = 1;   // <<== THIS ID NEEDS TO BE DECODED IN THE AUTHMIDDLEWARE PASSED HERE
+    const id = c.get('userId');   // <<== THIS ID NEEDS TO BE DECODED IN THE AUTHMIDDLEWARE PASSED HERE
 
     try{
         const prisma = new PrismaClient({
