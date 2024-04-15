@@ -14,29 +14,27 @@ export const signinBody = z.object({
 });
 
 // ZOD VALIDATIONS FOR CLIENTS =====================
-
 export const newClientBody = z.object({
     name: z.string(),
-	itemDescription: z.string(),
-	phone: z.string(),
-	totalAmount: z.number(),
+    itemDescription: z.string(),
+    phone: z.string(),
+    total: z.number(),
     deposit: z.number(),
     months: z.number(),
-    newDate: z.date()
+    newDate: z.date().optional()
 });
 
 export const updatedClientBody = z.object({
-    name: z.string().optional(),
-    itemDescription: z.string().optional(),
-    phone: z.string().optional(),
-    totalAmount: z.number().optional(),
-    deposit: z.number().optional(),
-    months: z.number().optional(),
+    name: z.string(),
+    itemDescription: z.string(),
+    phone: z.string(),
+    total: z.number(),
+    deposit: z.number(),
+    months: z.number(),
     newDate: z.date().optional()
 });
 
 // TYPE INFERENCES FOR THE FRONTEND =====================
-
 export type SignupInput = z.infer<typeof signinBody>
 export type SigninBody = z.infer<typeof signinBody>
 export type NewClientBody = z.infer<typeof newClientBody>

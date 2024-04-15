@@ -4,6 +4,7 @@ import { decode, sign, verify } from 'hono/jwt'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { newClientBody, updatedClientBody } from "@tabishkhaqan/payper-common";
+// import { newClientBody, updatedClientBody } from "../../../common/src/index";
 
 export const clientRouter = new Hono<{
     Bindings: {
@@ -14,6 +15,8 @@ export const clientRouter = new Hono<{
         userId: number;
     }
 }>();
+
+// MIDDLEWARE BELOW ===========================
 
 clientRouter.use('/*', async (c, next) => {
     const jwt = c.req.header('Authorization') || "";
@@ -41,10 +44,12 @@ clientRouter.post('/create', async (c) => {
         name: string;
         itemDescription: string;
         phone: string;
-        totalAmount: number;
+        total: number;
         deposit: number;
         months: number;
-      } = await c.req.json()
+      } = await c.req.json();
+      console.log("Check response below");
+      console.log(body);
     const newDate = new Date(); // USE THIS METHOD FOR TODAY'S DATE AND TIME NOW!!!
 
     const { success } = newClientBody.safeParse(body);
@@ -54,7 +59,7 @@ clientRouter.post('/create', async (c) => {
             message: "Incorrect client details"
         })
     }
-    
+
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
@@ -72,7 +77,7 @@ clientRouter.post('/create', async (c) => {
                 name: body.name, 
                 itemDescription: body.itemDescription, 
                 phone: body.phone,
-                total: body.totalAmount, 
+                total: body.total, 
                 deposit: body.deposit,
                 months: body.months,
                 dueDate: newDate,
@@ -98,7 +103,7 @@ clientRouter.put('/edit', async (c) => {
         name: string;
         itemDescription: string;
         phone: string;
-        totalAmount: number;
+        total: number;
         deposit: number;
         months: number;
       } = await c.req.json()
@@ -140,7 +145,7 @@ clientRouter.put('/edit', async (c) => {
             name: body.name, 
             itemDescription: body.itemDescription, 
             phone: body.phone, 
-            total: body.totalAmount, 
+            total: body.total, 
             deposit: body.deposit, 
             months: body.months, 
             dueDate: newDate
