@@ -3,6 +3,7 @@ import { cors } from 'hono/cors'
 import { decode, sign, verify } from 'hono/jwt'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
+import { signupBody, signinBody } from "@tabishkhaqan/payper-common";
 
 export const userRouter = new Hono<{
     Bindings: {
@@ -20,6 +21,14 @@ userRouter.post('/signup', async (c) => {
             firstName: string;
             lastName: string
           } = await c.req.json()
+
+        const { success } = signupBody.safeParse(body);
+        if(!success){
+            c.status(411);
+            return c.json({
+                message: "Incorrect inputs"
+            })
+        }
 
         const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,
@@ -67,6 +76,14 @@ userRouter.post('/signin', async (c) => {
             username: string;
             password: string;
           } = await c.req.json()
+
+        const { success } = signinBody.safeParse(body);
+        if(!success){
+            c.status(411);
+            return c.json({
+                message: "Incorrect inputs"
+            })
+        }
 
         const prisma = new PrismaClient({
             datasourceUrl: c.env.DATABASE_URL,

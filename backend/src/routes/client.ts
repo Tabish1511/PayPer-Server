@@ -3,6 +3,7 @@ import { cors } from 'hono/cors'
 import { decode, sign, verify } from 'hono/jwt'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
+import { newClientBody, updatedClientBody } from "@tabishkhaqan/payper-common";
 
 export const clientRouter = new Hono<{
     Bindings: {
@@ -45,6 +46,14 @@ clientRouter.post('/create', async (c) => {
         months: number;
       } = await c.req.json()
     const newDate = new Date(); // USE THIS METHOD FOR TODAY'S DATE AND TIME NOW!!!
+
+    const { success } = newClientBody.safeParse(body);
+    if(!success){
+        c.status(411);
+        return c.json({
+            message: "Incorrect client details"
+        })
+    }
     
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -96,6 +105,14 @@ clientRouter.put('/edit', async (c) => {
     console.log(body);  // <<== DELETE THIS LINE AFTER TESTING
     const newDate = new Date(); // USE THIS METHOD FOR TODAY'S DATE AND TIME NOW!!!
 	
+    const { success } = updatedClientBody.safeParse(body);
+    if(!success){
+        c.status(411);
+        return c.json({
+            message: "Incorrect client details"
+        })
+    }
+
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
