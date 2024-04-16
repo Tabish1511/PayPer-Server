@@ -27,6 +27,7 @@ interface ClientInterface {
 export function Clients() {
     const [clients, setClients] = useState<ClientInterface[]>([]);
     const [filter, setFilter] = useState<string>("");
+    const [loading, setLoading] = useState(true);   // <<== THIS IS LOADING FEATURE
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,6 +39,7 @@ export function Clients() {
         })
         .then(response => {
             setClients(response.data.client);
+            setLoading(false);
         })
         .catch(error => {
             console.error("Error fetching clients (frontend): ", error);
@@ -105,6 +107,12 @@ export function Clients() {
             initialState: { pageSize: 9 }
         }, usePagination) as TableInstanceWithHooks<ClientInterface>; 
 
+    if(loading){    // <<== THIS IS LOADING FEATURE
+        return <div>
+            Loading...
+        </div>
+    }
+    
     return (
         <div className="rounded-lg w-11/12 h-5/6 bg-white px-5 pb-5">
             <div className="grid grid-cols-6 gap-4">

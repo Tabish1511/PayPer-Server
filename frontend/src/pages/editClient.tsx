@@ -31,6 +31,7 @@ export function EditClient() {
     const [deposit, setDeposit] = useState("");
     const [months, setMonths] = useState("");
     const [date, setDate] = useState("");
+    const [loading, setLoading] = useState(true);   // <<== THIS IS LOADING FEATURE
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,12 +51,19 @@ export function EditClient() {
                 setDeposit(response.data.client.deposit);
                 setMonths(response.data.client.months);
                 setDate(response.data.client.dueDate);
+                setLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching client data:', error);
             });
         }
     }, [id]);
+
+    if(loading){    // <<== THIS IS LOADING FEATURE
+        return <div>
+            Loading...
+        </div>
+    }
 
     return (
         <div className="h-screen flex flex-col">
