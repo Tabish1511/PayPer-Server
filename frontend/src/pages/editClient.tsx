@@ -35,7 +35,9 @@ export function EditClient() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (id) { // Check if id is not null or undefined
+        if (!localStorage.getItem('token')) {
+            navigate('/signin');
+        }else if (id) { // Check if id is not null or undefined
             // axios.get(`http://localhost:3000/api/v1/client/single?id=${id}`)
             axios.get(`http://localhost:8787/api/v1/client/single?id=${id}`, {
             headers: {
@@ -126,7 +128,7 @@ export function EditClient() {
                             })
                             .then(response => {
                                 if(response.status === 200){
-                                    navigate("/");
+                                    navigate("/dashboard");
                                 }else{
                                     console.error("Status code not 200");
                                 }

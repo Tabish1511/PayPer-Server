@@ -43,7 +43,7 @@ export function Signup(){
                             localStorage.setItem("token", res.data.token);
                             
                         }).then(() => {
-                            navigate('/');
+                            navigate('/dashboard');
                         })
                         .catch((err) => {
                             console.error("Error", err);

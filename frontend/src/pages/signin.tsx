@@ -31,7 +31,7 @@ export function Signin(){
                         })
                         .then((res) => {
                             localStorage.setItem("token", res.data.token);
-                            navigate('/')
+                            navigate('/dashboard')
                         })
                     }} label="Sign In" />
                     <BottomWarning warning="Don't have an account? " link="Sign up" to={"/signup"}/>

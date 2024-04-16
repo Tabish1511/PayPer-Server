@@ -5,7 +5,7 @@ import { Heading } from "../components/Heading"
 import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/SubHeading"
 import axios from "axios"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export function CreateClient() {
     const [name, setName] = useState("");
@@ -15,6 +15,12 @@ export function CreateClient() {
     const [deposit, setDeposit] = useState("");
     const [months, setMonths] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+          navigate('/signin');
+        }
+    }, []);
 
     const handleSubmit = async () => {
         try {
@@ -31,7 +37,7 @@ export function CreateClient() {
                 }
             });
             if (response.status === 200) {
-                navigate("/");
+                navigate("/dashboard");
             }
         } catch (error) {
             console.error('Error creating client:', error);
