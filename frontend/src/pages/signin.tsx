@@ -25,7 +25,7 @@ export function Signin(){
                         setPassword(e.target.value);
                     }} label="Password" type="password" id="password" name="password" placeholder="1234Aa@" />
                     <Button onClick={async()=>{
-                        await axios.post("https://payper-server.khaqantabish.workers.dev//api/v1/user/signin", {
+                        await axios.post("https://payper-server.khaqantabish.workers.dev/api/v1/user/signin", {
                             username,
                             password
                         })
