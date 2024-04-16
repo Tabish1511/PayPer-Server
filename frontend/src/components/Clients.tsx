@@ -31,8 +31,7 @@ export function Clients() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // axios.get("http://localhost:3000/api/v1/client/bulk?filter=" + filter, {
-        axios.get("http://localhost:8787/api/v1/client/bulk?filter=" + filter, {
+        axios.get("https://payper-server.khaqantabish.workers.dev/api/v1/client/bulk?filter=" + filter, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }

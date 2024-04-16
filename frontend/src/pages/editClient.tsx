@@ -37,9 +37,8 @@ export function EditClient() {
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate('/signin');
-        }else if (id) { // Check if id is not null or undefined
-            // axios.get(`http://localhost:3000/api/v1/client/single?id=${id}`)
-            axios.get(`http://localhost:8787/api/v1/client/single?id=${id}`, {
+        }else if (id) {
+            axios.get(`https://payper-server.khaqantabish.workers.dev/api/v1/client/single?id=${id}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }
@@ -111,9 +110,8 @@ export function EditClient() {
                         )}
                         <Button onClick={() => {
                             if(id){
-                                // axios.put("http://localhost:3000/api/v1/client/edit", {
-                                axios.put("http://localhost:8787/api/v1/client/edit", {
-                                clientId: parseInt(id), /* THIS SHOULD BE RECIEVED FROM DASHBOARD */
+                                axios.put("https://payper-server.khaqantabish.workers.dev/api/v1/client/edit", {
+                                clientId: parseInt(id),
                                 name,
                                 itemDescription,
                                 phone,

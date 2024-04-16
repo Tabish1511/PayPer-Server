@@ -24,7 +24,7 @@ export function CreateClient() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post("http://localhost:8787/api/v1/client/create", {
+            const response = await axios.post("https://payper-server.khaqantabish.workers.dev/api/v1/client/create", {
                 name,
                 itemDescription,
                 phone,

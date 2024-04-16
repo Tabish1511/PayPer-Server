@@ -41,8 +41,7 @@ export function ButtonCombo(props: ButtonComboInterface){
                 onClick={async () => {
                 try {
                     await axios.patch(
-                    // "http://localhost:3000/api/v1/client/paid",
-                    "http://localhost:8787/api/v1/client/paid",
+                    "https://payper-server.khaqantabish.workers.dev/api/v1/client/paid",
                     {
                         id: props.id,
                     },
@@ -76,8 +75,7 @@ export function ButtonCombo(props: ButtonComboInterface){
                 subHeading="Are you sure you want to continue with this deletion?"
                 onClick={async () => {
                 try {
-                    // await axios.delete("http://localhost:3000/api/v1/client/delete", {
-                    await axios.delete("http://localhost:8787/api/v1/client/delete", {
+                    await axios.delete("https://payper-server.khaqantabish.workers.dev/api/v1/client/delete", {
                     data: { id: props.id },
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token"),
