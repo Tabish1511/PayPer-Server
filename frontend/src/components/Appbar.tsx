@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface AppbarInterface{
     initial: string;
 }
@@ -6,7 +8,8 @@ export function Appbar(props: AppbarInterface){
     return (
     <div className="border-solid border-2 border-gray-300 shadow h-14 flex justify-between">
         <div className="flex flex-col justify-center h-full ml-4">
-            PayPer
+            {/* PayPer */}
+            <Link to="/dashboard">PayPer</Link>
         </div>
         <div className="flex">
             <div className="flex flex-col justify-center h-full mr-4">
