@@ -9,8 +9,34 @@ export const userRouter = new Hono<{
     Bindings: {
         DATABASE_URL: string;
         JWT_SECRET: string;
+    },
+    Variables: {
+        userId: number;
     }
 }>();
+
+// MIDDLEWARE BELOW ===========================
+
+userRouter.use('/*', async (c, next) => {
+    const jwt = c.req.header('Authorization') || "";
+	if (!jwt) {
+		c.status(401);
+		return c.json({ error: "unauthorized" });
+	}
+
+    console.log('first line passed', jwt);
+
+    const token = jwt.split(' ')[1];
+	const payload = await verify(token, c.env.JWT_SECRET);
+	if (!payload) {
+		c.status(401);
+		return c.json({ error: "unauthorized" });
+	}
+    console.log(payload.id);    // <<== GET ID OF USER LOGGED-IN FROM THE JWT_TOKEN
+    
+    c.set('userId', payload.id);
+    await next()
+})
 
 // SIGNUP FOR THE FIRST TIME =============================================
 userRouter.post('/signup', async (c) => {
@@ -115,4 +141,34 @@ userRouter.post('/signin', async (c) => {
     }catch(err){
         return c.text('signin failed')
     }
+})
+
+// GET CURRENT LOGGED IN USER FIRSTNAME =============================================
+userRouter.get('/getUser', async (c) => {
+    try{
+        console.log(c.get('userId'));
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL,
+        }).$extends(withAccelerate())
+        const user = await prisma.user.findFirst({
+            where: {
+                id: c.get('userId')
+            }
+        })
+        if(!user){
+            c.status(403);
+            return c.json({
+                message: "User not found"
+            });
+        }
+        c.status(200);
+        return c.json({
+            user: {
+                name: user.firstName
+            }
+        })
+    }catch(err){
+        console.error("An error occurred fetching signed in user", err);
+    }
+
 })

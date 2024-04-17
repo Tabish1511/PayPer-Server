@@ -12,11 +12,9 @@ export function Dashboard(){
         }
     }, []);
       
-
-
     return (
         <div className="h-screen flex flex-col">
-            <Appbar initial="U"/>
+            <Appbar/>
             <div className="flex-1 bg-cream-main flex items-center justify-center">
                 <Clients />    
             </div>

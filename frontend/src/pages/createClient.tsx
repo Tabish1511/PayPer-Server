@@ -46,7 +46,7 @@ export function CreateClient() {
 
     return (
         <div className="h-screen flex flex-col">
-            <Appbar initial="U"/>
+            <Appbar/>
             
             <div className="flex-1 bg-cream-main flex justify-center">
                 <div className="flex flex-col justify-center">
