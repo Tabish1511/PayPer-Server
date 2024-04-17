@@ -17,7 +17,7 @@ export const userRouter = new Hono<{
 
 // MIDDLEWARE BELOW ===========================
 
-userRouter.use('/*', async (c, next) => {
+userRouter.use('/', async (c, next) => {
     const jwt = c.req.header('Authorization') || "";
 	if (!jwt) {
 		c.status(401);
