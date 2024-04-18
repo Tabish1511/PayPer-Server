@@ -1,42 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-// import { useEffect } from "react";
-// import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userState } from "../store/atoms/userState";
 
 export function Appbar() {
     const navigate = useNavigate();
-    const [user, setUser] = useRecoilState(userState);
+    const user = useRecoilValue(userState);
 
-    
-    console.log(user);
-
-
-
-
-    // useEffect(() => {
-    //     // Check if the user information is already in the Recoil state
-    //     if (!user.name) {
-    //         axios.get("https://payper-server.khaqantabish.workers.dev/api/v1/user/getUser" , {
-    //             headers: {
-    //                 Authorization: "Bearer " + localStorage.getItem("token")
-    //             }
-    //         })
-    //         .then((response) => {
-    //             console.log(response.data.user);
-    //             console.log(response.data.user);
-    //             const newUser = response.data.user;
-    //             if(user.name != newUser.name){
-    //                 setUser(response.data.user);
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.error('Error fetching logged in user data', err);
-    //         });
-    //     }
-    // }, [user, setUser]);
-    
     const handleLogout = () => {
         try {
         localStorage.removeItem("token");
