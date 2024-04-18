@@ -15,9 +15,9 @@ export const userRouter = new Hono<{
     }
 }>();
 
-// MIDDLEWARE BELOW ===========================
+// // MIDDLEWARE BELOW ===========================
 
-userRouter.use('/', async (c, next) => {
+userRouter.use('/getUser', async (c, next) => {
     const jwt = c.req.header('Authorization') || "";
 	if (!jwt) {
 		c.status(401);
@@ -136,7 +136,8 @@ userRouter.post('/signin', async (c) => {
         }, c.env.JWT_SECRET)
 
         return c.json({
-            token: jwt
+            token: jwt,
+            user: user
         })
     }catch(err){
         return c.text('signin failed')
