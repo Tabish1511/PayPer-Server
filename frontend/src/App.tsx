@@ -4,9 +4,11 @@ import { Dashboard } from './pages/dashboard';
 import { Signup } from './pages/signup';
 import { CreateClient } from './pages/createClient';
 import { EditClient } from './pages/editClient';
+import { RecoilRoot } from 'recoil';
 
 function App() {
   return (
+    <RecoilRoot>
     <>
       <BrowserRouter>
         <Routes>
@@ -19,6 +21,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </>
+    </RecoilRoot>
   )
 }
 
