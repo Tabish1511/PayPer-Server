@@ -6,6 +6,7 @@ import Modal from "./Modal";
 
 interface ButtonComboInterface{
     id: number;
+    onSuccess: () => void;
 }
 
 export function ButtonCombo(props: ButtonComboInterface){
@@ -51,6 +52,7 @@ export function ButtonCombo(props: ButtonComboInterface){
                         },
                     }
                     ).then(() => {
+                        props?.onSuccess?.();
                         closePaymentModal();
                     });
                 } catch (error) {
@@ -80,8 +82,11 @@ export function ButtonCombo(props: ButtonComboInterface){
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token"),
                     },
+                    })
+                    .then(() => {
+                        props?.onSuccess?.();
+                        closeDeleteModal();
                     });
-                    closeDeleteModal();
                 } catch (error) {
                     console.error("Error occurred while deleting client:", error);
                 }

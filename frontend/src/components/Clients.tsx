@@ -28,6 +28,7 @@ export function Clients() {
     const [clients, setClients] = useState<ClientInterface[]>([]);
     const [filter, setFilter] = useState<string>("");
     const [loading, setLoading] = useState(true);   // <<== THIS IS LOADING FEATURE
+    const [buttonSuccess, setButtonSuccess] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,11 +40,16 @@ export function Clients() {
         .then(response => {
             setClients(response.data.client);
             setLoading(false);
+            setButtonSuccess(false);
         })
         .catch(error => {
             console.error("Error fetching clients (frontend): ", error);
         });
-    }, [filter]);
+    }, [buttonSuccess ,filter]);
+
+    function handleClickSuccess() {
+        setButtonSuccess(true);
+    }
 
     const data = React.useMemo(() => clients, [clients]);
 
@@ -81,7 +87,7 @@ export function Clients() {
             {
                 Header: 'Actions',
                 accessor: 'id',
-                Cell: ({ value }: { value: number }) => <ButtonCombo id={value} />,
+                Cell: ({ value }: { value: number }) => <ButtonCombo id={value} onSuccess={handleClickSuccess} />,
             },
         ],
         []
