@@ -1,15 +1,16 @@
 import { Hono } from "hono";
-import { cors } from 'hono/cors'
-import { decode, sign, verify } from 'hono/jwt'
+import { verify } from 'hono/jwt'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { newClientBody, updatedClientBody } from "@tabishkhaqan/payper-common";
-// import { newClientBody, updatedClientBody } from "../../../common/src/index";
+
+import { Resend } from 'resend';
 
 export const clientRouter = new Hono<{
     Bindings: {
         DATABASE_URL: string;
         JWT_SECRET: string;
+        RESEND_API_KEY: string;
     },
     Variables: {
         userId: number;
@@ -81,7 +82,7 @@ clientRouter.post('/create', async (c) => {
                 deposit: body.deposit,
                 months: body.months,
                 dueDate: newDate,
-                userId: c.get('userId') //    << == CHANGE THIS WHEN ALL APIs ARE DONE
+                userId: c.get('userId')
             }
         })
         console.log(client);
@@ -149,7 +150,6 @@ clientRouter.put('/edit', async (c) => {
             deposit: body.deposit, 
             months: body.months, 
             dueDate: newDate
-            // userId: (req as CustomRequest).userId
         }
       })
     }catch(err){
@@ -167,7 +167,7 @@ clientRouter.put('/edit', async (c) => {
 
 clientRouter.get('/bulk', async (c) => {
     const filter = c.req.query('filter');
-    const id = c.get('userId');   // <<== THIS ID NEEDS TO BE DECODED IN THE AUTHMIDDLEWARE PASSED HERE
+    const id = c.get('userId');
 
     try{
         const prisma = new PrismaClient({
@@ -295,6 +295,23 @@ clientRouter.patch('/paid', async (c) => {
         }
       })
 
+      // EMAIL SENT BELOW ==============================
+      try{
+        const resend = new Resend(c.env.RESEND_API_KEY);
+        const data = await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: 'khaqantabish@gmail.com',
+            subject: 'Hello World',
+            html: '<strong>It finally works!</strong>'
+        });
+      }catch(emailError){
+        c.status(403);
+        return c.json({
+            "message": "Email sending error",
+            "error": emailError
+        })
+      }// END OF EMAIL BLOCK ============================
+      
       c.status(200);
       return c.json({
         "message": "Payment complete!"
