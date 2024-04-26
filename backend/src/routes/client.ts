@@ -85,9 +85,33 @@ clientRouter.post('/create', async (c) => {
                 userId: c.get('userId')
             }
         })
-        console.log(client);
+
+        // EMAIL SENT BELOW ==============================
+        try{
+            const resend = new Resend(c.env.RESEND_API_KEY);
+            const data = await resend.emails.send({
+                from: 'onboarding@resend.dev',
+                to: 'khaqantabish@gmail.com',
+                subject: 'Hello World',
+                html: `<strong>
+                New client created, ${client.name}:<br>
+                Item: ${client.itemDescription}<br>
+                Phone: ${client.phone}<br>
+                Total: ${client.total}<br>
+                Deposit: ${client.deposit}<br>
+                Months: ${client.months}<br>
+                Due date: ${client.dueDate}<br>
+                </strong>`
+            });
+        }catch(emailError){
+            c.status(403);
+            return c.json({
+                "message": "Email sending error",
+                "error": emailError
+            })
+        }// END OF EMAIL BLOCK ============================
+
         c.status(200)
-        
         return c.json({
             message: "Client created successfully",
         })
@@ -152,6 +176,33 @@ clientRouter.put('/edit', async (c) => {
             dueDate: newDate
         }
       })
+
+      // EMAIL SENT BELOW ==============================
+      try{
+        const resend = new Resend(c.env.RESEND_API_KEY);
+        const data = await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: 'khaqantabish@gmail.com',
+            subject: 'Hello World',
+            html: `<strong>
+            The following changes made to client, ${updatedClient.name}:<br>
+            Item: ${updatedClient.itemDescription}<br>
+            Phone: ${updatedClient.phone}<br>
+            Total: ${updatedClient.total}<br>
+            Deposit: ${updatedClient.deposit}<br>
+            Months: ${updatedClient.months}<br>
+            Due date: ${updatedClient.dueDate}<br>
+            </strong>`
+        });
+      }catch(emailError){
+        c.status(403);
+        return c.json({
+            "message": "Email sending error",
+            "error": emailError
+        })
+      }// END OF EMAIL BLOCK ============================
+
+
     }catch(err){
         c.status(403)
         
@@ -302,7 +353,7 @@ clientRouter.patch('/paid', async (c) => {
             from: 'onboarding@resend.dev',
             to: 'khaqantabish@gmail.com',
             subject: 'Hello World',
-            html: '<strong>It finally works!</strong>'
+            html: `<strong>Payment recieved from ${client.name}</strong>`
         });
       }catch(emailError){
         c.status(403);
@@ -341,6 +392,26 @@ clientRouter.delete('/delete', async (c) => {
         c.status(404)
         return c.json({"error": "Client not found"});
       }
+
+    console.log(deletedClient.name);
+
+    // EMAIL SENT BELOW ==============================
+    try{
+        const resend = new Resend(c.env.RESEND_API_KEY);
+        const data = await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: 'khaqantabish@gmail.com',
+            subject: 'Hello World',
+            html: `<strong>Client deleted, ${deletedClient.name}</strong>`
+        });
+      }catch(emailError){
+        c.status(403);
+        return c.json({
+            "message": "Email sending error",
+            "error": emailError
+        })
+      }// END OF EMAIL BLOCK ============================
+
     }catch(err){
         c.status(403)
         return c.json({"error": err});
