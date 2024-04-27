@@ -4,6 +4,10 @@ import { SmallButton } from "./SmallButton";
 import { useState } from "react";
 import Modal from "./Modal";
 
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
 interface ButtonComboInterface{
     id: number;
     onSuccess: () => void;
@@ -33,7 +37,7 @@ export function ButtonCombo(props: ButtonComboInterface){
     
     return (
         <div className="flex flex-nowrap justify-center">
-            <SmallButton label="✓" onClick={openPaymentModal} />
+            <SmallButton label={<PriceCheckIcon/>} title="Paid" onClick={openPaymentModal} />
             <Modal
                 isOpen={paymentModalOpen}
                 onClose={closePaymentModal}
@@ -63,13 +67,14 @@ export function ButtonCombo(props: ButtonComboInterface){
             ></Modal> {/* CLIENT PAID */}
             
             <SmallButton
-                label="+"
+                label={<EditNoteIcon/>}
+                title="Edit"
                 onClick={() => {
                 navigate("/editClient?id=" + props.id);
                 }}
             />  {/* EDIT CLIENT */}
             
-            <SmallButton label="-" onClick={openDeleteModal} />
+            <SmallButton label={<DeleteForeverIcon/>} title="Delete" onClick={openDeleteModal} />
             <Modal
                 isOpen={deleteModalOpen}
                 onClose={closeDeleteModal}

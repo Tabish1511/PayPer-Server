@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.15",
     "@tabishkhaqan/payper-common": "^1.0.0",
     "@types/react-table": "^7.7.20",
     "axios": "^1.6.8",
