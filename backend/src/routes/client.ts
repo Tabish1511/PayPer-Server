@@ -90,7 +90,7 @@ clientRouter.post('/create', async (c) => {
         try{
             const resend = new Resend(c.env.RESEND_API_KEY);
             const data = await resend.emails.send({
-                from: 'onboarding@resend.dev',
+                from: 'PayPer <onboarding@resend.dev>',
                 to: 'khaqantabish@gmail.com',
                 subject: 'Hello World',
                 html: `<strong>
@@ -181,7 +181,7 @@ clientRouter.put('/edit', async (c) => {
       try{
         const resend = new Resend(c.env.RESEND_API_KEY);
         const data = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'PayPer <onboarding@resend.dev>',
             to: 'khaqantabish@gmail.com',
             subject: 'Hello World',
             html: `<strong>
@@ -350,7 +350,7 @@ clientRouter.patch('/paid', async (c) => {
       try{
         const resend = new Resend(c.env.RESEND_API_KEY);
         const data = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'PayPer <onboarding@resend.dev>',
             to: 'khaqantabish@gmail.com',
             subject: 'Hello World',
             html: `<strong>Payment recieved from ${client.name}</strong>`
@@ -399,7 +399,7 @@ clientRouter.delete('/delete', async (c) => {
     try{
         const resend = new Resend(c.env.RESEND_API_KEY);
         const data = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'PayPer <onboarding@resend.dev>',
             to: 'khaqantabish@gmail.com',
             subject: 'Hello World',
             html: `<strong>Client deleted, ${deletedClient.name}</strong>`
