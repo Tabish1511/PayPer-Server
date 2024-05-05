@@ -86,12 +86,24 @@ clientRouter.post('/create', async (c) => {
             }
         })
 
+        // GET USER OF ACCOUNT ===========================
+        const user = await prisma.user.findFirst({
+            where: {
+                id: c.get('userId')
+            }
+        })
+        if (!user || !user.username) {
+            console.log("User not found or username is undefined");
+            return;
+        }
+        // ===============================================
+
         // EMAIL SENT BELOW ==============================
         try{
             const resend = new Resend(c.env.RESEND_API_KEY);
             const data = await resend.emails.send({
                 from: 'PayPer <onboarding@resend.dev>',
-                to: 'khaqantabish@gmail.com',
+                to: user.username,
                 subject: 'Hello World',
                 html: `<strong>
                 New client created, ${client.name}:<br>
@@ -177,12 +189,24 @@ clientRouter.put('/edit', async (c) => {
         }
       })
 
+      // GET USER OF ACCOUNT ===========================
+      const user = await prisma.user.findFirst({
+        where: {
+            id: c.get('userId')
+        }
+      })
+      if (!user || !user.username) {
+        console.log("User not found or username is undefined");
+        return;
+      }
+      // ===============================================
+
       // EMAIL SENT BELOW ==============================
       try{
         const resend = new Resend(c.env.RESEND_API_KEY);
         const data = await resend.emails.send({
             from: 'PayPer <onboarding@resend.dev>',
-            to: 'khaqantabish@gmail.com',
+            to: user.username,
             subject: 'Hello World',
             html: `<strong>
             The following changes made to client, ${updatedClient.name}:<br>
@@ -346,12 +370,24 @@ clientRouter.patch('/paid', async (c) => {
         }
       })
 
+      // GET USER OF ACCOUNT ===========================
+      const user = await prisma.user.findFirst({
+        where: {
+            id: c.get('userId')
+        }
+      })
+      if (!user || !user.username) {
+        console.log("User not found or username is undefined");
+        return;
+      }
+      // ===============================================
+
       // EMAIL SENT BELOW ==============================
       try{
         const resend = new Resend(c.env.RESEND_API_KEY);
         const data = await resend.emails.send({
             from: 'PayPer <onboarding@resend.dev>',
-            to: 'khaqantabish@gmail.com',
+            to: user.username,
             subject: 'Hello World',
             html: `<strong>Payment recieved from ${client.name}</strong>`
         });
@@ -395,12 +431,24 @@ clientRouter.delete('/delete', async (c) => {
 
     console.log(deletedClient.name);
 
+    // GET USER OF ACCOUNT ===========================
+    const user = await prisma.user.findFirst({
+        where: {
+            id: c.get('userId')
+        }
+      })
+      if (!user || !user.username) {
+        console.log("User not found or username is undefined");
+        return;
+      }
+      // ===============================================
+
     // EMAIL SENT BELOW ==============================
     try{
         const resend = new Resend(c.env.RESEND_API_KEY);
         const data = await resend.emails.send({
             from: 'PayPer <onboarding@resend.dev>',
-            to: 'khaqantabish@gmail.com',
+            to: user.username,
             subject: 'Hello World',
             html: `<strong>Client deleted, ${deletedClient.name}</strong>`
         });
