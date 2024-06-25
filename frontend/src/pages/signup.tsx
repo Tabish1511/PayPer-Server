@@ -49,6 +49,9 @@ export function Signup(){
                         })
                     }} label="Sign Up" />
                     <BottomWarning warning="Already have an account? " link="Sign in" to={"/signin"}/>
+                    <div className="text-center">
+                        (Note: kindly use a 'test@random.com' email)
+                    </div>
                 </div>
             </div>
         </div>
