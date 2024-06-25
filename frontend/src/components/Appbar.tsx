@@ -19,7 +19,11 @@ export function Appbar() {
     return (
         <div className="border-solid border-2 border-gray-300 shadow h-14 flex justify-between">
         <div className="flex flex-col justify-center h-full ml-4">
-            <Link to="/dashboard">PayPer</Link>
+            <Link to="/dashboard">
+                <div className="text-3xl font-black">
+                    PayPer
+                </div>
+            </Link>
         </div>
         <div className="flex">
             <div className="flex flex-col justify-center h-full mr-4">Hello</div>
