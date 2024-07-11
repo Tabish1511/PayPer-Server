@@ -33,7 +33,7 @@ export function Signup(){
                         setPassword(e.target.value);
                     }} label="Password" type="password" id="password" name="password" placeholder="1234Aa@" />
                     <Button onClick={async()=>{
-                        await axios.post("https://payper-server.khaqantabish.workers.dev/api/v1/user/signup", {
+                        await axios.post(`${import.meta.env.VITE_LOCAL_BACKEND_URL}/api/v1/user/signup`, {
                             username,
                             firstName,
                             lastName,

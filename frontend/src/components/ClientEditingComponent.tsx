@@ -37,7 +37,7 @@ export function ClientEditingComponent(){
         if (!localStorage.getItem('token')) {
             navigate('/signin');
         }else if (id) {
-            axios.get(`https://payper-server.khaqantabish.workers.dev/api/v1/client/single?id=${id}`, {
+            axios.get(`${import.meta.env.VITE_LOCAL_BACKEND_URL}/api/v1/client/single?id=${id}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }
@@ -106,7 +106,7 @@ export function ClientEditingComponent(){
                     )}
                     <Button onClick={() => {
                         if(id){
-                            axios.put("https://payper-server.khaqantabish.workers.dev/api/v1/client/edit", {
+                            axios.put(`${import.meta.env.VITE_LOCAL_BACKEND_URL}/api/v1/client/edit`, {
                             clientId: parseInt(id),
                             name,
                             itemDescription,

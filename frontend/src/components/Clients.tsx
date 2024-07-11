@@ -32,7 +32,7 @@ export function Clients() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("https://payper-server.khaqantabish.workers.dev/api/v1/client/bulk?filter=" + filter, {
+        axios.get(`${import.meta.env.VITE_LOCAL_BACKEND_URL}/api/v1/client/bulk?filter=${filter}`, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token")
             }
