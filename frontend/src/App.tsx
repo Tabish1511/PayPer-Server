@@ -5,6 +5,7 @@ import { Signup } from './pages/signup';
 import { CreateClient } from './pages/createClient';
 import { EditClient } from './pages/editClient';
 import { RecoilRoot } from 'recoil';
+import { LandingPage } from './pages/landingPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/landingPage" element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/createClient" element={<CreateClient />} />
