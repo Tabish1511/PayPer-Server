@@ -5,7 +5,7 @@ interface BannerComponentProps {
 
 export function BannerComponent(props: BannerComponentProps){
     return (
-        <div className="border-solid border-2 border-sky-500 bg-white rounded-lg h-96 w-2/4 p-16 flex flex-col justify-center">
+        <div className="bg-white rounded-lg h-96 w-2/4 p-16 flex flex-col justify-center">
             <div className="flex justify-between h-72">
                 <div className="text-xl w-5/12 flex flex-col justify-center text-left">
                     {props.text}
