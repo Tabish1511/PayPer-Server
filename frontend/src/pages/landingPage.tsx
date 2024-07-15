@@ -16,9 +16,11 @@ export function LandingPage(){
             <div className="flex justify-center">
                 <img src={dashboardLogo} className="w-3/4 h-auto"></img>
             </div>
-            <BannerComponent 
-                text="Access your dashboard on the go as the platform stands on serverless cloud architecture"
-                icon={cloudLogo}/>
+            <div className="flex justify-center mt-40">
+                <BannerComponent 
+                    text="Access your dashboard on the go as the platform stands on serverless cloud architecture"
+                    icon={cloudLogo}/>
+            </div>
         </div>
     )
 }
