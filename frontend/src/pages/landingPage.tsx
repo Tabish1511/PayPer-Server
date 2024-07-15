@@ -1,6 +1,7 @@
 import { HeroComponent } from "../components/HeroComponent";
 import { LandingPageAppbar } from "../components/LandingPageAppbar";
 import dashboardLogo from "../assets/Screenshot from 2024-07-12 15-22-06.png"
+import { BannerComponent } from "../components/BannerComponent";
 
 export function LandingPage(){
     return (
@@ -14,6 +15,7 @@ export function LandingPage(){
             <div className="flex justify-center">
                 <img src={dashboardLogo} className="w-3/4 h-auto"></img>
             </div>
+            <BannerComponent />
         </div>
     )
 }
