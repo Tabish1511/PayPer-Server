@@ -19,7 +19,7 @@ export function Appbar() {
     return (
         <div className="border-solid border-2 border-gray-300 shadow h-14 flex justify-between">
         <div className="flex flex-col justify-center h-full ml-4">
-            <Link to="/dashboard">
+            <Link to={localStorage.getItem('token') ? "/dashboard" : "/landingPage"}>
                 <div className="text-3xl font-black">
                     PayPer
                 </div>
