@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "./Button";
 
 export function LandingPageAppbar(){
@@ -8,10 +9,14 @@ export function LandingPageAppbar(){
                     P
                 </div>
                 <div className="flex">
-                    <div className="flex flex-col justify-center h-full">Login</div>
-                    <div className="flex flex-col justify-center">
-                        <Button label="Get Started" className="mb-4 mr-0 w-48" />
-                    </div>
+                    <Link to="/signin">
+                        <div className="flex flex-col justify-center h-full">Login</div>
+                    </Link>
+                    <Link to="/signup">
+                        <div className="flex flex-col justify-center">
+                            <Button label="Get Started" className="mb-4 mr-0 w-48" />
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>

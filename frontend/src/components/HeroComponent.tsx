@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "./Button";
 
 export function HeroComponent() {
@@ -9,9 +10,11 @@ export function HeroComponent() {
             <div className="text-2xl font-medium flex flex-col justify-center text-center my-4">
                 The installment tracker your business needs
             </div>
-            <div className="flex justify-center my-4">
-                <Button label="Sign up" className="mb-4 w-48" />
-            </div>
+            <Link to="/signup">
+                <div className="flex justify-center my-4">
+                    <Button label="Sign up" className="mb-4 w-48" />
+                </div>
+            </Link>
         </div>
     )
 }
