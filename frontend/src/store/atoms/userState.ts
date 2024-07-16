@@ -7,7 +7,7 @@ export const userState = atom({
     key: 'userStateSelector',
     get: async () => {
       try {
-        const response = await axios.get("https://payper-server.khaqantabish.workers.dev/api/v1/user/getUser", {
+        const response = await axios.get(`${import.meta.env.VITE_LOCAL_BACKEND_URL}/api/v1/user/getUser`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }
@@ -15,6 +15,8 @@ export const userState = atom({
         return response.data.user;
       } catch (err) {
         console.error('Error fetching logged in user data', err);
+        // Navigate to /signin here
+        window.location.href = "/landingPage";
         return null;
       }
     }

@@ -7,7 +7,8 @@ export function Dashboard(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) {
+        const token = localStorage.getItem('token');
+        if (!token || token === 'null') {
           navigate('/signin');
         }
     }, []);
