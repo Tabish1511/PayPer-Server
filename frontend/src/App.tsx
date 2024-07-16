@@ -19,7 +19,7 @@ function App() {
           <Route path="/createClient" element={<CreateClient />} />
           <Route path="/editClient" element={<EditClient />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path='/' element={localStorage.getItem('token') ? <Dashboard /> : <Signin />} />
+          <Route path='/' element={localStorage.getItem('token') ? <Dashboard /> : <LandingPage />} />
         </Routes>
       </BrowserRouter>
     </>
